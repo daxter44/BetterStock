@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockPulse - Notowania GPW + AI</title>
+	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <meta name="description" content="Nowoczesna alternatywa dla Stooq. Mobile-friendly, AI summaries, dark mode.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: #a0a0a0;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            padding: 18px 48px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: #a0a0a0;
+            line-height: 1.8;
+        }
+
+        /* Problems Section */
+        .problems {
+            padding: 100px 20px;
+            background: #0a0a0a;
+        }
+
+        .problems h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problems-subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .problems-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .problem-item {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .problem-item strong {
+            color: #ef4444;
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 100px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .final-cta p {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .features h2,
+            .problems h2,
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .hero-content > *:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .hero-content > *:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .hero-content > *:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo">📈 StockPulse</div>
+            <h1 class="gradient-text">
+                Nowy standard dla inwestorów. <br>
+                Szybko, jasno, mobilnie.
+            </h1>
+            <p class="subtitle">
+                Notowania, wiadomości ze spółek, raporty, dane finansowe.<br>
+                Maksimum treści - wygodnie na telefonie.<br>
+				AI Ready
+            </p>
+            <a href="https://forms.gle/bhacz8wsxzbyBQNk6" class="cta-button" target="_blank">
+                Weź udział w ankiecie →
+            </a>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="problems">
+        <div class="container">
+            <h2>Co jest nie tak z obecnymi portalami?</h2>
+            <p class="problems-subtitle">Pytamy, bo sami to czujemy...</p>
+            
+            <div class="problems-list">
+                <div class="problem-item">
+                    Nie czytelny na telefonie design z 2005 roku.
+                </div>
+                <div class="problem-item">
+                    Pełen clickbaitów i reklam.
+                </div>
+                <div class="problem-item">
+                    AI - Nie nadążają za możliwościami obecnych technologii.
+                </div>
+                <div class="problem-item">
+                    Przytłaczający interface. Za dużo informacji naraz.
+                </div>
+                <div class="problem-item">
+                    Musisz otwierać 5 zakładek żeby sprawdzić swój portfel.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Rozwiązanie</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile-First Design</h3>
+                    <p>Zbudowane od podstaw z myślą o telefonie. Szybkie, responsywne, czytelne. Dark mode domyślnie.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Podsumowania</h3>
+                    <p>Zamiast czytać 10 artykułów - jedno zdanie AI: "co się działo z tą spółką dzisiaj". Bez clickbaitów.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Wszystko w Jednym</h3>
+                    <p>Wykresy, newsy, alerty, watchlist - zero przełączania między stronami. Jedna aplikacja do wszystkiego.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Błyskawicznie Szybkie</h3>
+                    <p>Ładowanie < 1 sekundy. Brak zbędnych skryptów. Tylko to co potrzebne.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Bez Rejestracji</h3>
+                    <p>Watchlist działa od razu, bez zakładania konta. Twoje dane zostają w przeglądarce.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Personalizacja</h3>
+                    <p>Newsy i sugestie dopasowane do spółek które śledzisz. Bez spamu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+	<section class="final-cta">
+        <div class="container">
+            <h2>✨ AI Ready — platforma zaprojektowana tak, aby AI mogła działać precyzyjnie</h2>
+            
+            <p>Obecne portale nie wykorzystują możliwości dzisiejszej technologii. My budujemy serwis od zera, z myślą o AI: uporządkowane dane, RAG, serwery MCP i predefiniowane prompty.
+Efekt? Podsumowania bez halucynacji, szybkie analizy i wiarygodne informacje dla inwestora.</p>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Pomóż nam to zbudować</h2>
+            <p>Wypełnij 2-minutową ankietę i pomóż wybrać najważniejsze funkcje.<br>
+            Profit: stworzymy platformę skrojoną pod Twoje potrzeby i dostaniesz early access jak będziemy gotowi.</p>
+            <a href="https://forms.gle/bhacz8wsxzbyBQNk6" class="cta-button" target="_blank">
+                Wypełnij ankietę (2 min) →
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>StockPulse © 2024 | Launching Q1 2025</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                Nie jesteśmy powiązani ze Stooq ani innymi portalami giełdowymi.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Simple Analytics (optional) -->
+    <script>
+        // Track CTA clicks
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', () => {
+                console.log('CTA clicked');
+                // Add your analytics here (Plausible, Umami, etc.)
+            });
+        });
+    </script>
+</body>
+</html>
